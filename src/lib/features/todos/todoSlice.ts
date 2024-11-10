@@ -30,12 +30,11 @@ const todosSlice = createSlice({
         status: action.payload.status,
       });
     },
-    // todoToggled(state, action) {
-    //   const todo = state.find((todo) => todo.id === action.payload)
-    //   todo.completed = !todo.completed
-    // },
+    deleteTodo(state, action) {
+      return state.filter((todo) => todo.id !== action.payload);
+    },
   },
 });
 
-export const { addTodo } = todosSlice.actions;
+export const { addTodo, deleteTodo } = todosSlice.actions;
 export default todosSlice.reducer;
