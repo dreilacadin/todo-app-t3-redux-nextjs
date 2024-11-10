@@ -1,13 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-
-type Status = "pending" | "in progress" | "completed";
-
-interface Todo {
-  id: string;
-  title: string;
-  description: string;
-  status: Status;
-}
+import { type Todo } from "~/lib/types";
 
 const initialState: Todo[] = [
   {
@@ -30,11 +22,20 @@ const todosSlice = createSlice({
         status: action.payload.status,
       });
     },
+    editTodo(state, action: PayloadAction<Todo>) {
+      const todo = state.find((todo) => todo.id === action.payload.id);
+      if (todo) {
+        const { title, description, status } = action.payload;
+        todo.title = title;
+        todo.description = description;
+        todo.status = status;
+      }
+    },
     deleteTodo(state, action) {
       return state.filter((todo) => todo.id !== action.payload);
     },
   },
 });
 
-export const { addTodo, deleteTodo } = todosSlice.actions;
+export const { addTodo, editTodo, deleteTodo } = todosSlice.actions;
 export default todosSlice.reducer;

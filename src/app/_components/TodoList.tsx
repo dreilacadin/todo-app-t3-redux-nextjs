@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { deleteTodo } from "~/lib/features/todos/todoSlice";
 import { useAppDispatch, useAppSelector } from "~/lib/hooks";
 
@@ -42,14 +43,18 @@ export default function TodoList() {
             <td>{todo.title}</td>
             <td>{todo.description}</td>
             <td>{todo.status.toUpperCase()}</td>
-            <td className="flex gap-2">
-              <button className="text-blue-500">Edit</button>
-              <button
-                className="text-red-500"
-                onClick={() => handleDelete(todo.id)}
-              >
-                Delete
-              </button>
+            <td>
+              <div className="flex space-x-4">
+                <Link href={`/edit-todo/${todo.id}`}>
+                  <button className="text-blue-500">Edit</button>
+                </Link>
+                <button
+                  className="text-red-500"
+                  onClick={() => handleDelete(todo.id)}
+                >
+                  Delete
+                </button>
+              </div>
             </td>
           </tr>
         ))}
