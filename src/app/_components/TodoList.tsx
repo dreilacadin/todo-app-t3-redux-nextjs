@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { deleteTodo } from "~/lib/features/todos/todoSlice";
 import { useAppDispatch, useAppSelector } from "~/lib/hooks";
+import { type Status } from "~/lib/types";
 
-export default function TodoList() {
+export default function TodoList({ filter }: { filter: Status | "all" }) {
   const todos = useAppSelector((state) => state.todos);
   const dispatch = useAppDispatch();
 
@@ -38,26 +39,50 @@ export default function TodoList() {
         </tr>
       </thead>
       <tbody>
-        {todos.map((todo) => (
-          <tr key={todo.id}>
-            <td>{todo.title}</td>
-            <td>{todo.description}</td>
-            <td>{todo.status.toUpperCase()}</td>
-            <td>
-              <div className="flex space-x-4">
-                <Link href={`/edit-todo/${todo.id}`}>
-                  <button className="text-blue-500">Edit</button>
-                </Link>
-                <button
-                  className="text-red-500"
-                  onClick={() => handleDelete(todo.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </td>
-          </tr>
-        ))}
+        {/* TODO: Possible Refactor: */}
+        {filter !== "all"
+          ? todos
+              .filter((todo) => todo.status === filter)
+              .map((todo) => (
+                <tr key={todo.id}>
+                  <td>{todo.title}</td>
+                  <td>{todo.description}</td>
+                  <td>{todo.status.toUpperCase()}</td>
+                  <td>
+                    <div className="flex space-x-4">
+                      <Link href={`/edit-todo/${todo.id}`}>
+                        <button className="text-blue-500">Edit</button>
+                      </Link>
+                      <button
+                        className="text-red-500"
+                        onClick={() => handleDelete(todo.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+          : todos.map((todo) => (
+              <tr key={todo.id}>
+                <td>{todo.title}</td>
+                <td>{todo.description}</td>
+                <td>{todo.status.toUpperCase()}</td>
+                <td>
+                  <div className="flex space-x-4">
+                    <Link href={`/edit-todo/${todo.id}`}>
+                      <button className="text-blue-500">Edit</button>
+                    </Link>
+                    <button
+                      className="text-red-500"
+                      onClick={() => handleDelete(todo.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
       </tbody>
     </table>
   );
