@@ -1,12 +1,31 @@
+import { createId } from "@paralleldrive/cuid2";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { type Todo } from "~/lib/types";
 
 const initialState: Todo[] = [
   {
-    id: "tz4a98xxat96iws9zmbrgj3a",
+    id: createId(),
     title: "Wash the dishes",
     description: "Clear dirty dishes",
     status: "pending",
+  },
+  {
+    id: createId(),
+    title: "Take out the trash",
+    description: "Garbage truck is here, hurry!",
+    status: "pending",
+  },
+  {
+    id: createId(),
+    title: "Do the laundry",
+    description: "Time to use those suds!",
+    status: "in progress",
+  },
+  {
+    id: createId(),
+    title: "Water the plants",
+    description: "Make the plants go grow grow grow!",
+    status: "completed",
   },
 ];
 

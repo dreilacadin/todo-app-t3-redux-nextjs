@@ -9,8 +9,8 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
    - [x] Users can add new tasks with a title and description.
    - [x] Tasks should have a status: Pending, In Progress, Completed.
    - [x] Users can edit and delete tasks.
-   - [] Users can filter tasks by their status (Pending, In Progress,
-     Completed).
+   - [x] Users can filter tasks by their status (Pending, In Progress,
+         Completed).
    - [] Implement a search bar to find tasks by title.
    - [] Tasks should have due dates, and tasks that are past the due date
      should be highlighted.
