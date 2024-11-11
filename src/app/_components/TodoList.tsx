@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { deleteTodo } from "~/lib/features/todos/todoSlice";
 import { useAppDispatch, useAppSelector } from "~/lib/hooks";
 import { type Status, type Todo } from "~/lib/types";
+import { cn } from "~/lib/utils";
 
 export default function TodoList({
   filter,
@@ -72,15 +73,22 @@ export default function TodoList({
         <tr>
           <th>Title</th>
           <th>Description</th>
+          <th>Due Date</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         {filteredTodos.map((todo) => (
-          <tr key={todo.id}>
+          <tr
+            className={cn(
+              new Date(todo.dueDate) < new Date() && "bg-indigo-600",
+            )}
+            key={todo.id}
+          >
             <td>{todo.title}</td>
             <td>{todo.description}</td>
+            <td>{new Date(todo.dueDate).toLocaleDateString()}</td>
             <td>{todo.status.toUpperCase()}</td>
             <td>
               <div className="flex justify-center space-x-4">

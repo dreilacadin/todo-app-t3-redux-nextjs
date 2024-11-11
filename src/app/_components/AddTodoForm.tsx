@@ -5,6 +5,7 @@ import { useAppDispatch } from "~/lib/hooks";
 import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
+import { DatePicker } from "~/app/ui/datepicker";
 
 export default function AddTodoForm() {
   const dispatch = useAppDispatch();
@@ -17,11 +18,13 @@ export default function AddTodoForm() {
         .string()
         .trim()
         .min(1, { message: "Description is required" }),
+      date: z.string(),
     });
 
     const rawFormData = {
       title: formData.get("title"),
       description: formData.get("description"),
+      date: formData.get("date"),
     };
 
     try {
@@ -32,6 +35,7 @@ export default function AddTodoForm() {
           title: parsed.title,
           description: parsed.description,
           status: "pending",
+          dueDate: parsed.date,
         }),
       );
     } catch (e) {
@@ -65,6 +69,10 @@ export default function AddTodoForm() {
             placeholder="Do a Todo App using NextJS"
             required
           />
+        </div>
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="date">Due Date</label>
+          <DatePicker name="date" />
         </div>
         <button className="rounded bg-indigo-600 p-4 text-white" type="submit">
           Add Todo

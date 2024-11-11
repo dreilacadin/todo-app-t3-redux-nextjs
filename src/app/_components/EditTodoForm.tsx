@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "~/lib/hooks";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
 import type { Status } from "~/lib/types";
+import { DatePicker } from "~/app/ui/datepicker";
 
 export default function EditTodoForm({ todoId }: { todoId: string }) {
   const todo = useAppSelector((state) =>
@@ -22,12 +23,14 @@ export default function EditTodoForm({ todoId }: { todoId: string }) {
         .trim()
         .min(1, { message: "Description is required" }),
       status: z.custom<Status>(),
+      date: z.string(),
     });
 
     const rawFormData = {
       title: formData.get("title"),
       description: formData.get("description"),
       status: formData.get("status"),
+      date: formData.get("date"),
     };
 
     try {
@@ -38,6 +41,7 @@ export default function EditTodoForm({ todoId }: { todoId: string }) {
           title: parsed.title,
           description: parsed.description,
           status: parsed.status,
+          dueDate: parsed.date,
         }),
       );
     } catch (e) {
@@ -45,6 +49,10 @@ export default function EditTodoForm({ todoId }: { todoId: string }) {
     } finally {
       router.back();
     }
+  }
+
+  if (!todo) {
+    return null;
   }
 
   return (
@@ -58,7 +66,7 @@ export default function EditTodoForm({ todoId }: { todoId: string }) {
             type="text"
             id="title"
             name="title"
-            defaultValue={todo?.title}
+            defaultValue={todo.title}
             placeholder="Create Todo App"
             required
           />
@@ -70,10 +78,14 @@ export default function EditTodoForm({ todoId }: { todoId: string }) {
             type="text"
             id="description"
             name="description"
-            defaultValue={todo?.description}
+            defaultValue={todo.description}
             placeholder="Do a Todo App using NextJS"
             required
           />
+        </div>
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="date">Due Date</label>
+          <DatePicker name="date" defaultValue={new Date(todo.dueDate)} />
         </div>
         <div className="flex flex-col space-y-2">
           <label htmlFor="status" className="mb-2 block text-sm font-medium">
@@ -83,7 +95,7 @@ export default function EditTodoForm({ todoId }: { todoId: string }) {
             id="status"
             name="status"
             className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-            defaultValue={todo?.status}
+            defaultValue={todo.status}
           >
             <option value="pending">Pending</option>
             <option value="in progress">In Progress</option>
