@@ -73,3 +73,7 @@ pnpm test:watch
 - Project structure is quite similar to the base [NextJS App Router](https://nextjs.org/docs/app/getting-started/project-structure) defaults. Just that I added some folders to allow:
   1. [Parallel Routing](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)
   2. And a `lib` folder which houses my `stores`, `utils` and `hooks` files and directories.
+
+### Check this out on a prod environment at:
+
+https://todo-app-t3-redux-nextjs-git-main-drei-lacadins-projects.vercel.app
