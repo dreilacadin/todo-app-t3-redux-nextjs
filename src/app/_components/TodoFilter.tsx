@@ -1,5 +1,5 @@
 import Form from "next/form";
-import { Status } from "~/lib/types";
+import { type Status } from "~/lib/types";
 
 export default function TodoFilter({ filter }: { filter: Status | "all" }) {
   return (

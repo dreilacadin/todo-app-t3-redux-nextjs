@@ -22,7 +22,7 @@ export function DatePicker({
     if (defaultValue) {
       setDate(defaultValue);
     }
-  }, []);
+  }, [defaultValue]);
 
   return (
     <>

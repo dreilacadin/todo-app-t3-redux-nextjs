@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { deleteTodo } from "~/lib/features/todos/todoSlice";
 import { useAppDispatch } from "~/lib/hooks";
-import { Todo } from "~/lib/types";
+import { type Todo } from "~/lib/types";
 import { cn } from "~/lib/utils";
 
 export default function TodoItem({ todo }: { todo: Todo }) {
