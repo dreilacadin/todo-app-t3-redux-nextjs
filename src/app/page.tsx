@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Suspense } from "react";
 import SearchFilter from "~/app/_components/SearchFilter";
 import TodoFilter from "~/app/_components/TodoFilter";
 import TodoList from "~/app/_components/TodoList";

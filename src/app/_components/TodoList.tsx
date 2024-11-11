@@ -1,11 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { deleteTodo } from "~/lib/features/todos/todoSlice";
-import { useAppDispatch, useAppSelector } from "~/lib/hooks";
+import TodoItem from "~/app/_components/TodoItem";
+import { useAppSelector } from "~/lib/hooks";
 import { type Status, type Todo } from "~/lib/types";
-import { cn } from "~/lib/utils";
 
 export default function TodoList({
   filter,
@@ -15,7 +13,6 @@ export default function TodoList({
   query: string;
 }) {
   const todos = useAppSelector((state) => state.todos);
-  const dispatch = useAppDispatch();
 
   const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
 
@@ -42,17 +39,7 @@ export default function TodoList({
           todo.description.toLowerCase().includes(query),
       ),
     );
-  }, [query, todos]);
-
-  function handleDelete(id: string) {
-    if (!confirm("Are you sure you want to delete this task?")) return;
-
-    try {
-      dispatch(deleteTodo(id));
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  }, [query, todos, filter]);
 
   if (todos.length === 0) {
     return <div>loading...</div>;
@@ -80,30 +67,7 @@ export default function TodoList({
       </thead>
       <tbody>
         {filteredTodos.map((todo) => (
-          <tr
-            className={cn(
-              new Date(todo.dueDate) < new Date() && "bg-indigo-600",
-            )}
-            key={todo.id}
-          >
-            <td>{todo.title}</td>
-            <td>{todo.description}</td>
-            <td>{new Date(todo.dueDate).toLocaleDateString()}</td>
-            <td>{todo.status.toUpperCase()}</td>
-            <td>
-              <div className="flex justify-center space-x-4">
-                <Link href={`/edit-todo/${todo.id}`}>
-                  <button className="text-blue-500">Edit</button>
-                </Link>
-                <button
-                  className="text-red-500"
-                  onClick={() => handleDelete(todo.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </td>
-          </tr>
+          <TodoItem key={todo.id} todo={todo} />
         ))}
       </tbody>
     </table>
